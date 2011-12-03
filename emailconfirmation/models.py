@@ -118,7 +118,6 @@ class EmailConfirmationManager(models.Manager):
                   [email_address.email], priority="high")
         return self.create(
             email_address=email_address,
-            sent=datetime.now(),
             confirmation_key=confirmation_key)
 
     def delete_expired_confirmations(self):
@@ -129,7 +128,7 @@ class EmailConfirmationManager(models.Manager):
 class EmailConfirmation(models.Model):
 
     email_address = models.ForeignKey(EmailAddress)
-    sent = models.DateTimeField()
+    sent = models.DateTimeField(auto_now_add=True)
     confirmation_key = models.CharField(max_length=40)
 
     objects = EmailConfirmationManager()
